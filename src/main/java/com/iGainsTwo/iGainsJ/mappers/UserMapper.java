@@ -18,7 +18,7 @@ public interface UserMapper {
     User toModel(UserRegistrationRequestDTO dto);
 
     @Mapping(target = "email", source = "user.email")
-    @Mapping(target = "userName", source = "user.userName")
+    @Mapping(target = "userName", source = "user.username")
     @Mapping(target = "age", source = "user.age")
     @Mapping(target = "height", source = "user.height")
     @Mapping(target = "weight", source = "user.weight")
