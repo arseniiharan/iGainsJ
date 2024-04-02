@@ -1,11 +1,8 @@
 package com.iGainsTwo.iGainsJ.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Entity
 @Data
@@ -26,7 +23,6 @@ public class UserCalendar {
     private Exercise exercise;
 
     @Column(name = "is_completed", nullable = false)
-    @NotBlank
     private boolean isCompleted;
 
     @Column(name = "break_duration")
