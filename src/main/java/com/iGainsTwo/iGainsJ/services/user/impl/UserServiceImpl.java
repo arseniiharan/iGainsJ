@@ -13,8 +13,8 @@ import com.iGainsTwo.iGainsJ.repositories.UserCalendarRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserRepository;
 import com.iGainsTwo.iGainsJ.services.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
    @Override
     public UserResponseDTO userRegistration(UserRegistrationRequestDTO regRequestDTO) throws UserExistsException {
@@ -33,7 +34,7 @@ public class UserServiceImpl implements UserService {
             throw new UserExistsException("User with t" +
                     "his email already exists");
         }
-
+        regRequestDTO.setPassword(passwordEncoder.encode(regRequestDTO.getPassword()));
         User user = userMapper.toModel(regRequestDTO);
         Role role = roleRepository.findByRoleName(Role.RoleName.ROLE_USER);
         user.setRoles(Set.of(role));

@@ -1,13 +1,11 @@
 package com.iGainsTwo.iGainsJ.controllers;
 
-import com.iGainsTwo.iGainsJ.DTO.UserRegistrationRequestDTO;
 import com.iGainsTwo.iGainsJ.DTO.UserResponseDTO;
-import com.iGainsTwo.iGainsJ.exceptions.UserExistsException;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
 import com.iGainsTwo.iGainsJ.services.user.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,21 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/reg")
-    public ResponseEntity postUser(@RequestBody @Valid UserRegistrationRequestDTO userRegistrationRequestDTO) {
-        try {
-            userService.userRegistration(userRegistrationRequestDTO);
-            UserResponseDTO user = userService.userFindByEmail(userRegistrationRequestDTO.getEmail());
-            return ResponseEntity.ok("User saved successfully: " + user.toString());
-        } catch (UserExistsException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Bad registration request");
-        }
-    }
-
-    @GetMapping
-    public ResponseEntity getUser(@RequestParam String email) {
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @GetMapping("/get/{email}")
+    public ResponseEntity<?> getUser(@PathVariable String email) {
         try {
             UserResponseDTO user = userService.userFindByEmail(email);
             return ResponseEntity.ok(user);
@@ -41,6 +27,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize(value = "hasRole('ADMIN_ROLE')")
     @DeleteMapping("/del/{email}")
     public ResponseEntity deleteUser(@PathVariable String email) {
         try {
@@ -52,5 +39,4 @@ public class UserController {
             return ResponseEntity.badRequest().body("Bad delete request");
         }
     }
-
 }
