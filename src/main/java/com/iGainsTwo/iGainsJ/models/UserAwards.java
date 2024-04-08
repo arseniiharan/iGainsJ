@@ -10,13 +10,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "awards")
 public class UserAwards {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private String id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private Long id;
 
     @Column(name = "award_title", unique = true)
     private String awardTitle;

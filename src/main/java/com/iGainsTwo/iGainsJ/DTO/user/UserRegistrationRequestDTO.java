@@ -1,4 +1,4 @@
-package com.iGainsTwo.iGainsJ.DTO;
+package com.iGainsTwo.iGainsJ.DTO.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

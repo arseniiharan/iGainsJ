@@ -1,7 +1,7 @@
 package com.iGainsTwo.iGainsJ.mappers;
 
-import com.iGainsTwo.iGainsJ.DTO.UserRegistrationRequestDTO;
-import com.iGainsTwo.iGainsJ.DTO.UserResponseDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserRegistrationRequestDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserResponseDTO;
 import com.iGainsTwo.iGainsJ.models.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

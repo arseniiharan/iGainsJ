@@ -1,7 +1,7 @@
 package com.iGainsTwo.iGainsJ.security;
 
-import com.iGainsTwo.iGainsJ.DTO.UserLoginRequestDTO;
-import com.iGainsTwo.iGainsJ.DTO.UserLoginResponseDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserLoginRequestDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserLoginResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

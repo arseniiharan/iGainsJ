@@ -1,7 +1,7 @@
 package com.iGainsTwo.iGainsJ.services.user;
 
-import com.iGainsTwo.iGainsJ.DTO.UserRegistrationRequestDTO;
-import com.iGainsTwo.iGainsJ.DTO.UserResponseDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserRegistrationRequestDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserResponseDTO;
 import com.iGainsTwo.iGainsJ.exceptions.UserExistsException;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
 

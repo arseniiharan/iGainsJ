@@ -1,4 +1,4 @@
-package com.iGainsTwo.iGainsJ.DTO;
+package com.iGainsTwo.iGainsJ.DTO.user;
 
 import com.iGainsTwo.iGainsJ.models.Favorite;
 import com.iGainsTwo.iGainsJ.models.LatestTraining;

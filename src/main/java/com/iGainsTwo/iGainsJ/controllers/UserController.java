@@ -1,6 +1,6 @@
 package com.iGainsTwo.iGainsJ.controllers;
 
-import com.iGainsTwo.iGainsJ.DTO.UserResponseDTO;
+import com.iGainsTwo.iGainsJ.DTO.user.UserResponseDTO;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
 import com.iGainsTwo.iGainsJ.services.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class UserController {
         }
     }
 
-    @PreAuthorize(value = "hasRole('ADMIN_ROLE')")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @DeleteMapping("/del/{email}")
     public ResponseEntity deleteUser(@PathVariable String email) {
         try {
