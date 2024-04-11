@@ -1,13 +1,12 @@
 package com.iGainsTwo.iGainsJ.repositories;
 
-import com.iGainsTwo.iGainsJ.models.User;
+import com.iGainsTwo.iGainsJ.models.Favorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByEmail(String email);
+public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+    Optional<Favorite> findByExerciseId(Long id);
 }

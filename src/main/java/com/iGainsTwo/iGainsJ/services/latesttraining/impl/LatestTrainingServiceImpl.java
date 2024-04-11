@@ -23,7 +23,6 @@ import java.util.Optional;
 public class LatestTrainingServiceImpl implements LatestTrainingService {
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
-    private final LatestTrainingRepository latestTrainingRepository;
 
     private final ExerciseMapper exerciseMapper;
 
