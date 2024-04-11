@@ -1,6 +1,7 @@
 package com.iGainsTwo.iGainsJ.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.Email;
@@ -56,9 +57,11 @@ public class User implements UserDetails {
     @Column(name="train_count")
     private int trainCount;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Favorite> favorites = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<LatestTraining> latestTrainings = new ArrayList<>();
 

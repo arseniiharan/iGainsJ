@@ -1,5 +1,7 @@
 package com.iGainsTwo.iGainsJ.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name="exercises")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +37,7 @@ public class Exercise {
     @OneToMany(mappedBy="exercise", cascade=CascadeType.ALL)
     private List<Favorite> favorites;
 
+    @JsonIgnore
     @OneToMany(mappedBy ="exercise", cascade=CascadeType.ALL)
     private List<LatestTraining> latestTrainings;
 
