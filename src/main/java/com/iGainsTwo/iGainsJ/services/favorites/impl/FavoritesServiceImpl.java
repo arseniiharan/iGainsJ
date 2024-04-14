@@ -31,7 +31,7 @@ public class FavoritesServiceImpl implements FavoritesService {
     public ExerciseDTO addFavorite(AddDelFavoriteExerciseDTO addDelFavoriteExerciseDTO) throws UserNeverExistedException, ExerciseNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addDelFavoriteExerciseDTO.userId());
         if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("User with that email doesn't exist");
+            throw new UserNeverExistedException("This user doesn't exist");
         }
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(addDelFavoriteExerciseDTO.exerciseId());
         if (exerciseOptional.isEmpty()) {
@@ -60,6 +60,8 @@ public class FavoritesServiceImpl implements FavoritesService {
             throw new FavoriteNeverExistedException("User doesn't have favorite exercise like this");
         }
         Favorite favorite = favoriteOptional.get();
+        User user = userOptional.get();
+        user.getFavorites().remove(favorite);
         favoriteRepository.delete(favorite);
     }
 }

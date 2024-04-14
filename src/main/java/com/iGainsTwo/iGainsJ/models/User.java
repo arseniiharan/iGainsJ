@@ -66,8 +66,8 @@ public class User implements UserDetails {
     private List<LatestTraining> latestTrainings = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserCalendar userCalendar;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserCalendar> userCalendar = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

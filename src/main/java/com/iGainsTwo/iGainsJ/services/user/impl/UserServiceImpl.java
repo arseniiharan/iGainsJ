@@ -39,10 +39,6 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByRoleName(Role.RoleName.ROLE_USER);
         user.setRoles(Set.of(role));
         userRepository.save(user);
-        UserCalendar userCalendar = new UserCalendar();
-        user.setUserCalendar(userCalendar);
-        userCalendar.setUser(user);
-        userCalendarRepository.save(userCalendar);
         return userMapper.toDto(user);
     }
 

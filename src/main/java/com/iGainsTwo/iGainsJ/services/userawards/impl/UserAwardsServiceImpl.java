@@ -29,7 +29,7 @@ public class UserAwardsServiceImpl implements UserAwardsService {
     public AwardDTO giveUserAward(GiveAwardDTO giveAwardDTO) throws UserNeverExistedException, AwardNeverExistedException {
         Optional<User> userOptional = userRepository.findById(giveAwardDTO.userId());
         if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("User with that email doesn't exist");
+            throw new UserNeverExistedException("This user doesn't exist");
         }
         Optional<UserAwards> awardOptional = userAwardsRepository.findById(giveAwardDTO.awardId());
         if (awardOptional.isEmpty()) {

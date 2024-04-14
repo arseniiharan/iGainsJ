@@ -20,7 +20,7 @@ public class UserResponseDTO {
     private int kcalCount;
     private int trainCount;
     private List<LatestTraining> latestTrainings;
-    private UserCalendar userCalendar;
+    private List<UserCalendar> userCalendar;
     private List<Favorite> favorites;
     private List<UserAwards> userAwards;
 }
