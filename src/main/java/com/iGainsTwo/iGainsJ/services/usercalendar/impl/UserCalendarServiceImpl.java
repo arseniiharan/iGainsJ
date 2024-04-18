@@ -3,6 +3,7 @@ package com.iGainsTwo.iGainsJ.services.usercalendar.impl;
 import com.iGainsTwo.iGainsJ.DTO.calendar.AddCalendarDTO;
 import com.iGainsTwo.iGainsJ.DTO.calendar.CalendarDTO;
 import com.iGainsTwo.iGainsJ.DTO.calendar.DeleteCalendarDTO;
+import com.iGainsTwo.iGainsJ.DTO.calendar.UpdateCalendarDTO;
 import com.iGainsTwo.iGainsJ.exceptions.CalendarNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.ExerciseNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
@@ -68,5 +69,35 @@ public class UserCalendarServiceImpl implements UserCalendarService {
         user.getUserCalendar().remove(userCalendar);
         userRepository.save(user);
         userCalendarRepository.delete(userCalendar);
+    }
+
+    @Override
+    public CalendarDTO updateUserCalendar(UpdateCalendarDTO updateCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException, CalendarNeverExistedException {
+        Optional<User> userOptional = userRepository.findById(updateCalendarDTO.userId());
+        if (userOptional.isEmpty()) {
+            throw new UserNeverExistedException("This user doesn't exist");
+        }
+        Optional<UserCalendar> calendarOptional = userCalendarRepository.findById(updateCalendarDTO.calendarId());
+        if (calendarOptional.isEmpty()) {
+            throw new CalendarNeverExistedException("Calendar like this doesn't exist for this user or have never been created");
+        }
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(updateCalendarDTO.exerciseId());
+        if (exerciseOptional.isEmpty()) {
+            throw new ExerciseNeverExistedException("This exercise doesn't exist");
+        }
+        Exercise exercise = exerciseOptional.get();
+        User user = userOptional.get();
+        UserCalendar userCalendar = calendarOptional.get();
+        userCalendar.setId(updateCalendarDTO.calendarId());
+        userCalendar.setUser(user);
+        userCalendar.setExercise(exercise);
+        userCalendar.setCompleted(false);
+        userCalendar.setSetQuantity(updateCalendarDTO.setQuantity());
+        userCalendar.setBreakDuration(updateCalendarDTO.breakDuration());
+        userCalendar.setStartTime(updateCalendarDTO.startTime());
+        user.getUserCalendar().add(userCalendar);
+        userRepository.save(user);
+        userCalendarRepository.save(userCalendar);
+        return calendarMapper.toDto(userCalendar);
     }
 }

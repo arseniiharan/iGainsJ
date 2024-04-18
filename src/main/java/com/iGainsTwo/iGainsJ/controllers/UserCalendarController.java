@@ -2,6 +2,7 @@ package com.iGainsTwo.iGainsJ.controllers;
 
 import com.iGainsTwo.iGainsJ.DTO.calendar.AddCalendarDTO;
 import com.iGainsTwo.iGainsJ.DTO.calendar.DeleteCalendarDTO;
+import com.iGainsTwo.iGainsJ.DTO.calendar.UpdateCalendarDTO;
 import com.iGainsTwo.iGainsJ.exceptions.CalendarNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.ExerciseNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
@@ -41,6 +42,22 @@ public class UserCalendarController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Bad request");
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUserCalendar(@RequestBody UpdateCalendarDTO updateCalendarDTO) {
+        try {
+            userCalendarService.updateUserCalendar(updateCalendarDTO);
+            return ResponseEntity.ok("Calendar has been updated successfully");
+        } catch (UserNeverExistedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (ExerciseNeverExistedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (CalendarNeverExistedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return  ResponseEntity.badRequest().body("Bad request");
         }
     }
 }
