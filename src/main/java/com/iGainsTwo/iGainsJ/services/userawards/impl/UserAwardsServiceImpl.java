@@ -28,15 +28,11 @@ public class UserAwardsServiceImpl implements UserAwardsService {
     @Transactional
     public AwardDTO giveUserAward(GiveAwardDTO giveAwardDTO) throws UserNeverExistedException, AwardNeverExistedException {
         Optional<User> userOptional = userRepository.findById(giveAwardDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("This user doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
+
         Optional<UserAwards> awardOptional = userAwardsRepository.findById(giveAwardDTO.awardId());
-        if (awardOptional.isEmpty()) {
-            throw new AwardNeverExistedException("This award doesn't exist");
-        }
-        UserAwards award = awardOptional.get();
-        User user = userOptional.get();
+        UserAwards award = awardOptional.orElseThrow(() -> new AwardNeverExistedException("This award doesn't exist"));
+
         user.getUserAwards().add(award);
         userRepository.save(user);
         return userAwardsMapper.toDto(award);

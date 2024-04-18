@@ -5,7 +5,6 @@ import com.iGainsTwo.iGainsJ.models.Exercise;
 import com.iGainsTwo.iGainsJ.models.LatestTraining;
 import com.iGainsTwo.iGainsJ.models.User;
 import com.iGainsTwo.iGainsJ.repositories.ExerciseRepository;
-import com.iGainsTwo.iGainsJ.repositories.LatestTrainingRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserRepository;
 import com.iGainsTwo.iGainsJ.services.latesttraining.LatestTrainingService;
 import com.iGainsTwo.iGainsJ.DTO.exercise.AddLastTrainingDTO;
@@ -29,16 +28,11 @@ public class LatestTrainingServiceImpl implements LatestTrainingService {
     @Override
     public ExerciseDTO addLastTraining(AddLastTrainingDTO addLastTrainingDTO) throws UserNeverExistedException, ExerciseNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addLastTrainingDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("This user doesn't exist");
-        }
-        Optional<Exercise> exerciseOptional = exerciseRepository.findById(addLastTrainingDTO.exerciseId());
-        if (exerciseOptional.isEmpty()) {
-            throw new ExerciseNeverExistedException("This exercise doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
-        Exercise exercise = exerciseOptional.get();
-        User user = userOptional.get();
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(addLastTrainingDTO.exerciseId());
+        Exercise exercise = exerciseOptional.orElseThrow(() -> new ExerciseNeverExistedException("This exercise doesn't exist"));
+
         LatestTraining latestTraining = new LatestTraining();
         latestTraining.setUser(user);
         latestTraining.setExercise(exercise);

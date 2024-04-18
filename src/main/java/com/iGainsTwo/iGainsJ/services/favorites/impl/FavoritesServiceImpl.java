@@ -30,16 +30,11 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Override
     public ExerciseDTO addFavorite(AddDelFavoriteExerciseDTO addDelFavoriteExerciseDTO) throws UserNeverExistedException, ExerciseNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addDelFavoriteExerciseDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("This user doesn't exist");
-        }
-        Optional<Exercise> exerciseOptional = exerciseRepository.findById(addDelFavoriteExerciseDTO.exerciseId());
-        if (exerciseOptional.isEmpty()) {
-            throw new ExerciseNeverExistedException("This exercise doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
-        Exercise exercise = exerciseOptional.get();
-        User user = userOptional.get();
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(addDelFavoriteExerciseDTO.exerciseId());
+        Exercise exercise = exerciseOptional.orElseThrow(() -> new ExerciseNeverExistedException("This exercise doesn't exist"));
+
         Favorite favorite = new Favorite();
         favorite.setExercise(exercise);
         favorite.setUser(user);
@@ -51,16 +46,11 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Override
     public void deleteFavorite(AddDelFavoriteExerciseDTO addDelFavoriteExerciseDTO) throws UserNeverExistedException, FavoriteNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addDelFavoriteExerciseDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("User with that email doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
         Optional<Favorite> favoriteOptional = favoriteRepository.findByExerciseId(addDelFavoriteExerciseDTO.exerciseId());
-        if (favoriteOptional.isEmpty()) {
-            throw new FavoriteNeverExistedException("User doesn't have favorite exercise like this");
-        }
-        Favorite favorite = favoriteOptional.get();
-        User user = userOptional.get();
+        Favorite favorite = favoriteOptional.orElseThrow(() -> new FavoriteNeverExistedException("User doesn't have favorite exercise like this"));
+
         user.getFavorites().remove(favorite);
         favoriteRepository.delete(favorite);
     }

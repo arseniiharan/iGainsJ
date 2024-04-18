@@ -32,15 +32,11 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     @Override
     public CalendarDTO addUserCalendar(AddCalendarDTO addCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException{
         Optional<User> userOptional = userRepository.findById(addCalendarDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("This user doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
+
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(addCalendarDTO.exerciseId());
-        if (exerciseOptional.isEmpty()) {
-            throw new ExerciseNeverExistedException("This exercise doesn't exist");
-        }
-        Exercise exercise = exerciseOptional.get();
-        User user = userOptional.get();
+        Exercise exercise = exerciseOptional.orElseThrow(() -> new ExerciseNeverExistedException("This exercise doesn't exist"));
+
         UserCalendar userCalendar = new UserCalendar();
         userCalendar.setUser(user);
         userCalendar.setExercise(exercise);
@@ -57,15 +53,11 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     @Override
     public void deleteUserCalendar(DeleteCalendarDTO deleteCalendarDTO) throws UserNeverExistedException, CalendarNeverExistedException{
         Optional<User> userOptional = userRepository.findById(deleteCalendarDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("This user doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
+
         Optional<UserCalendar> calendarOptional = userCalendarRepository.findById(deleteCalendarDTO.calendarId());
-        if (calendarOptional.isEmpty()) {
-            throw new CalendarNeverExistedException("Calendar like this doesn't exist for this user or have never been created");
-        }
-        UserCalendar userCalendar = calendarOptional.get();
-        User user = userOptional.get();
+        UserCalendar userCalendar = calendarOptional.orElseThrow(() -> new CalendarNeverExistedException("Calendar like this doesn't exist for this user or have never been created"));
+
         user.getUserCalendar().remove(userCalendar);
         userRepository.save(user);
         userCalendarRepository.delete(userCalendar);
@@ -74,20 +66,14 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     @Override
     public CalendarDTO updateUserCalendar(UpdateCalendarDTO updateCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException, CalendarNeverExistedException {
         Optional<User> userOptional = userRepository.findById(updateCalendarDTO.userId());
-        if (userOptional.isEmpty()) {
-            throw new UserNeverExistedException("This user doesn't exist");
-        }
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
+
         Optional<UserCalendar> calendarOptional = userCalendarRepository.findById(updateCalendarDTO.calendarId());
-        if (calendarOptional.isEmpty()) {
-            throw new CalendarNeverExistedException("Calendar like this doesn't exist for this user or have never been created");
-        }
+        UserCalendar userCalendar = calendarOptional.orElseThrow(() -> new CalendarNeverExistedException("Calendar like this doesn't exist for this user or have never been created"));
+
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(updateCalendarDTO.exerciseId());
-        if (exerciseOptional.isEmpty()) {
-            throw new ExerciseNeverExistedException("This exercise doesn't exist");
-        }
-        Exercise exercise = exerciseOptional.get();
-        User user = userOptional.get();
-        UserCalendar userCalendar = calendarOptional.get();
+        Exercise exercise = exerciseOptional.orElseThrow(() -> new ExerciseNeverExistedException("This exercise doesn't exist"));
+
         userCalendar.setId(updateCalendarDTO.calendarId());
         userCalendar.setUser(user);
         userCalendar.setExercise(exercise);
