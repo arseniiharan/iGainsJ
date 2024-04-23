@@ -15,6 +15,7 @@ import com.iGainsTwo.iGainsJ.repositories.ExerciseRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserCalendarRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserRepository;
 import com.iGainsTwo.iGainsJ.services.usercalendar.UserCalendarService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     private final CalendarMapper calendarMapper;
 
     @Override
+    @Transactional
     public CalendarDTO addUserCalendar(AddCalendarDTO addCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException{
         Optional<User> userOptional = userRepository.findById(addCalendarDTO.userId());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
@@ -46,11 +48,11 @@ public class UserCalendarServiceImpl implements UserCalendarService {
         userCalendar.setStartTime(addCalendarDTO.startTime());
         user.getUserCalendar().add(userCalendar);
         userRepository.save(user);
-        userCalendarRepository.save(userCalendar);
         return calendarMapper.toDto(userCalendar);
     }
 
     @Override
+    @Transactional
     public void deleteUserCalendar(DeleteCalendarDTO deleteCalendarDTO) throws UserNeverExistedException, CalendarNeverExistedException{
         Optional<User> userOptional = userRepository.findById(deleteCalendarDTO.userId());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
@@ -64,6 +66,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     }
 
     @Override
+    @Transactional
     public CalendarDTO updateUserCalendar(UpdateCalendarDTO updateCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException, CalendarNeverExistedException {
         Optional<User> userOptional = userRepository.findById(updateCalendarDTO.userId());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));

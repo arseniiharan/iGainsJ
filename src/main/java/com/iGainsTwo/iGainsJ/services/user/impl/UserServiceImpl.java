@@ -12,6 +12,7 @@ import com.iGainsTwo.iGainsJ.repositories.RoleRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserCalendarRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserRepository;
 import com.iGainsTwo.iGainsJ.services.user.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
    @Override
+   @Transactional
     public UserResponseDTO userRegistration(UserRegistrationRequestDTO regRequestDTO) throws UserExistsException {
         if (userRepository.findByEmail(regRequestDTO.getEmail()).isPresent()) {
             throw new UserExistsException("User with t" +
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponseDTO userFindByEmail(String email) throws UserNeverExistedException {
        Optional<User> userOptional = userRepository.findByEmail(email);
        if (userOptional.isEmpty()) {
@@ -53,6 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void userDeleteByEmail(String email) throws UserNeverExistedException {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isEmpty()) {

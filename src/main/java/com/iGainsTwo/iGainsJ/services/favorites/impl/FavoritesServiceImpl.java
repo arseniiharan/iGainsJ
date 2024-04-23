@@ -13,6 +13,7 @@ import com.iGainsTwo.iGainsJ.repositories.ExerciseRepository;
 import com.iGainsTwo.iGainsJ.repositories.FavoriteRepository;
 import com.iGainsTwo.iGainsJ.repositories.UserRepository;
 import com.iGainsTwo.iGainsJ.services.favorites.FavoritesService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class FavoritesServiceImpl implements FavoritesService {
     private final ExerciseMapper exerciseMapper;
 
     @Override
+    @Transactional
     public ExerciseDTO addFavorite(AddDelFavoriteExerciseDTO addDelFavoriteExerciseDTO) throws UserNeverExistedException, ExerciseNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addDelFavoriteExerciseDTO.userId());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
@@ -44,6 +46,7 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
+    @Transactional
     public void deleteFavorite(AddDelFavoriteExerciseDTO addDelFavoriteExerciseDTO) throws UserNeverExistedException, FavoriteNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addDelFavoriteExerciseDTO.userId());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));

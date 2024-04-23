@@ -11,6 +11,7 @@ import com.iGainsTwo.iGainsJ.DTO.exercise.AddLastTrainingDTO;
 import com.iGainsTwo.iGainsJ.DTO.exercise.ExerciseDTO;
 import com.iGainsTwo.iGainsJ.exceptions.ExerciseNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class LatestTrainingServiceImpl implements LatestTrainingService {
     private final ExerciseMapper exerciseMapper;
 
     @Override
+    @Transactional
     public ExerciseDTO addLastTraining(AddLastTrainingDTO addLastTrainingDTO) throws UserNeverExistedException, ExerciseNeverExistedException {
         Optional<User> userOptional = userRepository.findById(addLastTrainingDTO.userId());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
