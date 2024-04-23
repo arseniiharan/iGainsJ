@@ -7,6 +7,7 @@ import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
 import com.iGainsTwo.iGainsJ.services.favorites.FavoritesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
