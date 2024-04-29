@@ -1,5 +1,6 @@
 package com.iGainsTwo.iGainsJ.services.user.impl;
 
+import com.iGainsTwo.iGainsJ.DTO.user.UserParametersChangeDTO;
 import com.iGainsTwo.iGainsJ.DTO.user.UserRegistrationRequestDTO;
 import com.iGainsTwo.iGainsJ.DTO.user.UserResponseDTO;
 import com.iGainsTwo.iGainsJ.exceptions.UserExistsException;
@@ -64,5 +65,17 @@ public class UserServiceImpl implements UserService {
         }
         User user = userOptional.get();
         userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public void changeUserParameters(UserParametersChangeDTO userParametersChangeDTO) throws UserNeverExistedException {
+        Optional<User> userOptional = userRepository.findByEmail(userParametersChangeDTO.email());
+        User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
+
+        user.setHeight(userParametersChangeDTO.height());
+        user.setWeight(userParametersChangeDTO.weight());
+        user.setAge(userParametersChangeDTO.age());
+        userRepository.save(user);
     }
 }

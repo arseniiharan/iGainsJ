@@ -1,5 +1,6 @@
 package com.iGainsTwo.iGainsJ.controllers;
 
+import com.iGainsTwo.iGainsJ.DTO.user.UserParametersChangeDTO;
 import com.iGainsTwo.iGainsJ.DTO.user.UserResponseDTO;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
 import com.iGainsTwo.iGainsJ.services.user.UserService;
@@ -37,6 +38,19 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Bad delete request");
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    @PutMapping("/change")
+    public ResponseEntity<?> changeUserParameters(@RequestBody UserParametersChangeDTO userParametersChangeDTO) {
+        try {
+            userService.changeUserParameters(userParametersChangeDTO);
+            return ResponseEntity.ok("User info changed successfully");
+        } catch (UserNeverExistedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Bad change request");
         }
     }
 }
