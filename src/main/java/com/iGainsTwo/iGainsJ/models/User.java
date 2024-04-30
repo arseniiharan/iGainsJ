@@ -130,4 +130,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return !isDeleted;
     }
+
+    public String getUserName() { // UserDetails fix with getting username instead of email through GET request
+        return userName;
+    }
 }
