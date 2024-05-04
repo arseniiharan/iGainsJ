@@ -1,9 +1,12 @@
 package com.iGainsTwo.iGainsJ.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 @Entity
 @Data
@@ -20,7 +23,6 @@ public class UserCalendar {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "session_name")
     private Exercise exercise;
@@ -32,9 +34,12 @@ public class UserCalendar {
     private int breakDuration;
 
     @Column(name = "start_time")
-    private int startTime;
+    private String startTime;
 
     @Column(name = "set_quaintity")
     private int setQuantity;
+
+    @Column(name = "calendar_date")
+    private String calendarDate;
 
 }

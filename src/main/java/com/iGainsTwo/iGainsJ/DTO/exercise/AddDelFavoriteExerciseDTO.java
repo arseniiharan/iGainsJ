@@ -1,6 +1,4 @@
 package com.iGainsTwo.iGainsJ.DTO.exercise;
 
-import java.util.UUID;
-
-public record AddDelFavoriteExerciseDTO(Long exerciseId, UUID userId){
+public record AddDelFavoriteExerciseDTO(Long exerciseId, String email){
 }

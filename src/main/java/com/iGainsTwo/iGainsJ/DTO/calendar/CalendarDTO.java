@@ -6,6 +6,7 @@ import lombok.Data;
 public class CalendarDTO {
     private boolean isCompleted;
     private int breakDuration;
-    private int startTime;
+    private String startTime;
     private int setQuantity;
+    private String calendarDate;
 }

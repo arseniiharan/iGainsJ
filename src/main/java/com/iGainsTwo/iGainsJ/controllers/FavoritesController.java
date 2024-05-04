@@ -1,6 +1,7 @@
 package com.iGainsTwo.iGainsJ.controllers;
 
 import com.iGainsTwo.iGainsJ.DTO.exercise.AddDelFavoriteExerciseDTO;
+import com.iGainsTwo.iGainsJ.exceptions.AlreadyInFavoritesException;
 import com.iGainsTwo.iGainsJ.exceptions.ExerciseNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.FavoriteNeverExistedException;
 import com.iGainsTwo.iGainsJ.exceptions.UserNeverExistedException;
@@ -24,6 +25,8 @@ public class FavoritesController {
         } catch (UserNeverExistedException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (ExerciseNeverExistedException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }catch (AlreadyInFavoritesException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Bad request");

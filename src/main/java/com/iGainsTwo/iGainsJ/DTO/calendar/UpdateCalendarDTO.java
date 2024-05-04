@@ -4,8 +4,9 @@ import java.util.UUID;
 
 public record UpdateCalendarDTO(Long calendarId,
                                 Long exerciseId,
-                                UUID userId,
+                                String email,
                                 int breakDuration,
-                                int startTime,
-                                int setQuantity) {
+                                String startTime,
+                                int setQuantity,
+                                String calendarDate) {
 }

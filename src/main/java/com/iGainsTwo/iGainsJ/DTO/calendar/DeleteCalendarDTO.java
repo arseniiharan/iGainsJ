@@ -1,6 +1,4 @@
 package com.iGainsTwo.iGainsJ.DTO.calendar;
 
-import java.util.UUID;
-
-public record DeleteCalendarDTO(Long calendarId, UUID userId) {
+public record DeleteCalendarDTO(Long calendarId, String email) {
 }
