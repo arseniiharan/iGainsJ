@@ -29,7 +29,7 @@ public class LatestTrainingServiceImpl implements LatestTrainingService {
     @Override
     @Transactional
     public ExerciseDTO addLastTraining(AddLastTrainingDTO addLastTrainingDTO) throws UserNeverExistedException, ExerciseNeverExistedException {
-        Optional<User> userOptional = userRepository.findById(addLastTrainingDTO.userId());
+        Optional<User> userOptional = userRepository.findByEmail(addLastTrainingDTO.email());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(addLastTrainingDTO.exerciseId());

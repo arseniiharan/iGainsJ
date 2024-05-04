@@ -19,6 +19,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -33,7 +34,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     @Override
     @Transactional
     public CalendarDTO addUserCalendar(AddCalendarDTO addCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException{
-        Optional<User> userOptional = userRepository.findById(addCalendarDTO.userId());
+        Optional<User> userOptional = userRepository.findByEmail(addCalendarDTO.email());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
         Optional<Exercise> exerciseOptional = exerciseRepository.findById(addCalendarDTO.exerciseId());
@@ -46,6 +47,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
         userCalendar.setSetQuantity(addCalendarDTO.setQuantity());
         userCalendar.setBreakDuration(addCalendarDTO.breakDuration());
         userCalendar.setStartTime(addCalendarDTO.startTime());
+        userCalendar.setCalendarDate(addCalendarDTO.calendarDate());
         user.getUserCalendar().add(userCalendar);
         userRepository.save(user);
         return calendarMapper.toDto(userCalendar);
@@ -54,7 +56,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     @Override
     @Transactional
     public void deleteUserCalendar(DeleteCalendarDTO deleteCalendarDTO) throws UserNeverExistedException, CalendarNeverExistedException{
-        Optional<User> userOptional = userRepository.findById(deleteCalendarDTO.userId());
+        Optional<User> userOptional = userRepository.findByEmail(deleteCalendarDTO.email());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
         Optional<UserCalendar> calendarOptional = userCalendarRepository.findById(deleteCalendarDTO.calendarId());
@@ -68,7 +70,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
     @Override
     @Transactional
     public CalendarDTO updateUserCalendar(UpdateCalendarDTO updateCalendarDTO) throws UserNeverExistedException, ExerciseNeverExistedException, CalendarNeverExistedException {
-        Optional<User> userOptional = userRepository.findById(updateCalendarDTO.userId());
+        Optional<User> userOptional = userRepository.findByEmail(updateCalendarDTO.email());
         User user = userOptional.orElseThrow(() -> new UserNeverExistedException("This user doesn't exist"));
 
         Optional<UserCalendar> calendarOptional = userCalendarRepository.findById(updateCalendarDTO.calendarId());
@@ -84,6 +86,7 @@ public class UserCalendarServiceImpl implements UserCalendarService {
         userCalendar.setSetQuantity(updateCalendarDTO.setQuantity());
         userCalendar.setBreakDuration(updateCalendarDTO.breakDuration());
         userCalendar.setStartTime(updateCalendarDTO.startTime());
+        userCalendar.setCalendarDate(updateCalendarDTO.calendarDate());
         user.getUserCalendar().add(userCalendar);
         userRepository.save(user);
         userCalendarRepository.save(userCalendar);

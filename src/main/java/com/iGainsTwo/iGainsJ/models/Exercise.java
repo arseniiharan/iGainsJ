@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
@@ -34,6 +35,11 @@ public class Exercise {
     @Column(name="exercise_kcal", nullable = false)
     private int exerciseKcal;
 
+    @Column(name="exercise_select", nullable = false)
+    @ColumnDefault("false")
+    private boolean exerciseSelected;
+
+    @JsonIgnore
     @OneToMany(mappedBy="exercise", cascade=CascadeType.ALL)
     private List<Favorite> favorites;
 
@@ -41,6 +47,7 @@ public class Exercise {
     @OneToMany(mappedBy ="exercise", cascade=CascadeType.ALL)
     private List<LatestTraining> latestTrainings;
 
+    @JsonIgnore
     @OneToMany(mappedBy="exercise", cascade=CascadeType.ALL)
     private List<UserCalendar> userCalendars;
 
